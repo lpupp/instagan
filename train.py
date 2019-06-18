@@ -44,7 +44,7 @@ if __name__ == '__main__':
             if total_steps % opt.display_freq == 0 or output_samples:
                 output_samples = True
                 if count == 0:
-                    web_dir_ = os.path.join(web_dir, epoch)
+                    web_dir_ = os.path.join(web_dir, str(epoch))
                     webpage = html.HTML(web_dir, 'Experiment = %s, Phase = %s, Epoch = %s' % (opt.name, opt.phase, epoch))
 
                 count += 1
