@@ -20,7 +20,7 @@ class UnalignedSegDataset(BaseDataset):
 		self.root = opt.dataroot
 		self.dir_A = os.path.join(opt.dataroot, opt.phase + 'A')
 		self.dir_B = os.path.join(opt.dataroot, opt.phase + 'B')
-		self.max_instances = 20  # default: 20
+		self.max_instances = 1#20  # default: 20
 		self.seg_dir = 'seg'  # default: 'seg'
 
 		self.A_paths = sorted(make_dataset(self.dir_A))
@@ -36,7 +36,7 @@ class UnalignedSegDataset(BaseDataset):
 	def read_segs(self, seg_path, seed):
 		segs = list()
 		for i in range(self.max_instances):
-			path = seg_path.replace('.png', '_{}.png'.format(i))
+			path = seg_path#.replace('.png', '_{}.png'.format(i))
 			if os.path.isfile(path):
 				seg = Image.open(path).convert('L')
 				seg = self.fixed_transform(seg, seed)
