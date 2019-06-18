@@ -54,8 +54,8 @@ class UnalignedSegDataset(BaseDataset):
 
 		A_path = self.A_paths[index_A]
 		B_path = self.B_paths[index_B]
-		A_seg_path = A_path.replace('A', 'A_{}'.format(self.seg_dir))
-		B_seg_path = B_path.replace('B', 'B_{}'.format(self.seg_dir))
+		A_seg_path = A_path.replace('trainA', 'trainA_{}'.format(self.seg_dir)).replace('valA', 'valA_{}'.format(self.seg_dir))
+		B_seg_path = B_path.replace('trainB', 'trainB_{}'.format(self.seg_dir)).replace('valB', 'valB_{}'.format(self.seg_dir))
 
 		A_idx = A_path.split('/')[-1].split('.')[0]
 		B_idx = B_path.split('/')[-1].split('.')[0]
