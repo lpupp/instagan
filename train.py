@@ -1,8 +1,11 @@
+import os
+import html
+
 import time
 from options.train_options import TrainOptions
 from data import CreateDataLoader
 from models import create_model
-from util.visualizer import Visualizer
+from util.visualizer import Visualizer, save_images
 
 if __name__ == '__main__':
     opt = TrainOptions().parse()
@@ -15,6 +18,9 @@ if __name__ == '__main__':
     model.setup(opt)
     visualizer = Visualizer(opt)
     total_steps = 0
+
+    output_samples, count = False, 0
+    web_dir = os.path.join(opt.checkpoints_dir, opt.name, 'samples')
 
     for epoch in range(opt.epoch_count, opt.niter + opt.niter_decay + 1):
         epoch_start_time = time.time()
@@ -34,6 +40,23 @@ if __name__ == '__main__':
             if total_steps % opt.display_freq == 0:
                 save_result = total_steps % opt.update_html_freq == 0
                 visualizer.display_current_results(model.get_current_visuals(), epoch, save_result)
+
+            if total_steps % opt.display_freq == 0 or output_samples:
+                output_samples = True
+                if count == 0:
+                    web_dir_ = os.path.join(web_dir, epoch)
+                    webpage = html.HTML(web_dir, 'Experiment = %s, Phase = %s, Epoch = %s' % (opt.name, opt.phase, epoch))
+
+                count += 1
+
+                visuals = model.get_current_visuals()
+                img_path = model.get_image_paths()
+
+                save_images(webpage, visuals, img_path, aspect_ratio=opt.aspect_ratio, width=opt.display_winsize)
+
+                if count >= 50:
+                    webpage.save()
+                    output_samples, count = False, 0
 
             if total_steps % opt.print_freq == 0:
                 losses = model.get_current_losses()
