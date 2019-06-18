@@ -41,22 +41,22 @@ if __name__ == '__main__':
                 save_result = total_steps % opt.update_html_freq == 0
                 visualizer.display_current_results(model.get_current_visuals(), epoch, save_result)
 
-            if total_steps % opt.display_freq == 0 or output_samples:
-                output_samples = True
-                if count == 0:
-                    web_dir_ = os.path.join(web_dir, str(epoch))
-                    webpage = html.HTML(web_dir, 'Experiment = %s, Phase = %s, Epoch = %s' % (opt.name, opt.phase, epoch))
-
-                count += 1
-
-                visuals = model.get_current_visuals()
-                img_path = model.get_image_paths()
-
-                save_images(webpage, visuals, img_path, aspect_ratio=opt.aspect_ratio, width=opt.display_winsize)
-
-                if count >= 50:
-                    webpage.save()
-                    output_samples, count = False, 0
+            # if total_steps % opt.display_freq == 0 or output_samples:
+            #     output_samples = True
+            #     if count == 0:
+            #         web_dir_ = os.path.join(web_dir, str(epoch))
+            #         webpage = html.HTML(web_dir, 'Experiment = %s, Phase = %s, Epoch = %s' % (opt.name, opt.phase, epoch))
+            #
+            #     count += 1
+            #
+            #     visuals = model.get_current_visuals()
+            #     img_path = model.get_image_paths()
+            #
+            #     save_images(webpage, visuals, img_path, aspect_ratio=opt.aspect_ratio, width=opt.display_winsize)
+            #
+            #     if count >= 50:
+            #         webpage.save()
+            #         output_samples, count = False, 0
 
             if total_steps % opt.print_freq == 0:
                 losses = model.get_current_losses()
